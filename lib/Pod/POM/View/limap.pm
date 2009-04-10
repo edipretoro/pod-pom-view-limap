@@ -3,9 +3,12 @@ package Pod::POM::View::limap;
 use warnings;
 use strict;
 
+use Pod::POM::View;
+use base qw( Pod::POM::View );
+
 =head1 NAME
 
-Pod::POM::View::limap - The great new Pod::POM::View::limap!
+Pod::POM::View::limap - Information Mapping view of a Pod Object Model
 
 =head1 VERSION
 
@@ -18,34 +21,20 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use Pod::POM::View::limap;
-
-    my $foo = Pod::POM::View::limap->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+This module convert a Pod Object View into a Information Mapping document. This is made with LaTeX and a special package called I<limap>. 
 
 =head1 FUNCTIONS
 
-=head2 function1
+=head2 new
 
 =cut
 
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
+sub new {
+    my ($class, %args) = @_;
+    my $self = {};
+    
+    bless $self, $class;
+    return $self;
 }
 
 =head1 AUTHOR
