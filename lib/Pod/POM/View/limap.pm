@@ -188,6 +188,16 @@ sub view_seq_italic {
     return "\\emph{$text}";
 }
 
+=head2 view_seq_link
+
+=cut
+
+sub view_seq_link {
+    my ($self, $link) = @_;
+    
+    return "\\url{$link}";
+}
+
 =head1 AUTHOR
 
 Emmanuel Di Pretoro, C<< <<edipretoro at gmail.com>> >>
