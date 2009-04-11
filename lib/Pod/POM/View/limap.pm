@@ -38,6 +38,7 @@ my $header = <<'HEADER';
 }
 HEADER
     ;
+my @OVER;
 
 =head1 SYNOPSIS
 
@@ -165,7 +166,7 @@ sub view_verbatim {
 sub view_textblock {
     my ($self, $text) = @_;
     
-    return "\n$text\n";
+    return "$text\n";
 }
 
 =head2 view_seq_bold
@@ -228,7 +229,7 @@ sub view_over {
 	}
 	elsif ($first_title =~ /^\s*\d+\.?\s*/) {
 	    # '=item 1.' or '=item 1 ' => <ol>
-	    $start = "\\befin{enumerate}\n";
+	    $start = "\\begin{enumerate}\n";
 	    $end   = "\\end{enumerate}\n";
 	    $strip = qr/^\s*\d+\.?\s*/;
 	}
