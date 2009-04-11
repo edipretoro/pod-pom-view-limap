@@ -30,11 +30,89 @@ This module convert a Pod Object View into a Information Mapping document. This 
 =cut
 
 sub new {
-    my ($class, %args) = @_;
-    my $self = {};
+    my $class = shift;
+    my $args  = ref $_[0] eq 'HASH' ? shift : { @_ };
+    bless { 
+	%$args,
+    }, $class;
+}
+
+=head2 view
+
+=cut 
+
+sub view {
+    my ($self, $type, $item) = @_;
+
+    if ($type =~ s/^seq_//) {
+        return $item;
+    }
+    elsif (UNIVERSAL::isa($item, 'HASH')) {
+        if (defined $item->{content}) {
+            return $item->{content}->present($self);
+        }
+        elsif (defined $item->{text}) {
+            my $text = $item->{text};
+            return ref $text ? $text->present($self) : $text;
+        }
+        else {
+            return '';
+        }
+    }
+    elsif (! ref $item) {
+        return $item;
+    }
+    else {
+        return '';
+    }
+}
+
+=head2 view_head1
+
+=cut 
+
+sub view_head1 {
+    my ($self, $head1) = @_;
+    my $title = $head1->title->present($self);
     
-    bless $self, $class;
-    return $self;
+    my $output = "\\begin{Map}{$title}\n" . $head1->content->present($self) . "\n\\end{Map}\n";
+    return $output;
+}
+
+=head2 view_head2
+
+=cut 
+
+sub view_head2 {
+    my ($self, $head2) = @_;
+    my $title = $head2->title->present($self);
+    
+    my $output = "\\Block{$title}\n\n" . $head2->content->present($self) . "\n";
+    return $output;
+}
+
+=head2 view_head3
+
+=cut 
+
+sub view_head3 {
+    my ($self, $head3) = @_;
+    my $title = $head3->title->present($self);
+    
+    my $output = "\\paragraph{$title}\n\n" . $head3->content->present($self) . "\n";
+    return $output;
+}
+
+=head2 view_head4
+
+=cut 
+
+sub view_head4 {
+    my ($self, $head4) = @_;
+    my $title = $head4->title->present($self);
+    
+    my $output = "\\subparagraph{$title}\n\n" . $head4->content->present($self) . "\n";
+    return $output;
 }
 
 =head1 AUTHOR
