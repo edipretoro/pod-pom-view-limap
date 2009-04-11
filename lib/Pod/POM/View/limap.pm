@@ -132,7 +132,7 @@ sub view_head3 {
     my ($self, $head3) = @_;
     my $title = $head3->title->present($self);
     
-    my $output = "\\paragraph{$title}\n\n" . $head3->content->present($self) . "\n";
+    my $output = "\n\\paragraph{$title}\n\n" . $head3->content->present($self) . "\n";
     return $output;
 }
 
@@ -144,8 +144,48 @@ sub view_head4 {
     my ($self, $head4) = @_;
     my $title = $head4->title->present($self);
     
-    my $output = "\\subparagraph{$title}\n\n" . $head4->content->present($self) . "\n";
+    my $output = "\n\\subparagraph{$title}\n\n" . $head4->content->present($self) . "\n";
     return $output;
+}
+
+=head2 view_verbatim
+
+=cut
+
+sub view_verbatim {
+    my ($self, $text) = @_;
+    
+    return "\n\\begin{verbatim}$text\\end{verbatim}\n\n";
+}
+
+=head2 view_textblock
+
+=cut
+
+sub view_textblock {
+    my ($self, $text) = @_;
+    
+    return "\n$text\n";
+}
+
+=head2 view_seq_bold
+
+=cut
+
+sub view_seq_bold {
+    my ($self, $text) = @_;
+    
+    return "\\textbf{$text}";
+}
+
+=head2 view_seq_italic
+
+=cut
+
+sub view_seq_italic {
+    my ($self, $text) = @_;
+    
+    return "\\emph{$text}";
 }
 
 =head1 AUTHOR
