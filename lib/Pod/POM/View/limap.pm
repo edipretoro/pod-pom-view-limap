@@ -198,6 +198,16 @@ sub view_seq_link {
     return "\\url{$link}";
 }
 
+=head2 view_seq_index
+
+=cut
+
+sub view_seq_index {
+    my ($self, $index) = @_;
+
+    return "\\index{$index}";
+}
+
 =head1 AUTHOR
 
 Emmanuel Di Pretoro, C<< <<edipretoro at gmail.com>> >>
