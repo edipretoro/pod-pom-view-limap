@@ -208,6 +208,62 @@ sub view_seq_index {
     return "\\index{$index}";
 }
 
+=head2 view_over
+
+=cut
+
+sub view_over {
+    my ($self, $over) = @_;
+    my ($start, $end, $strip);
+    my $items = $over->item();
+
+    if (@$items) {
+	my $first_title = $items->[0]->title();
+
+	if ($first_title =~ /^\s*\*\s*/) {
+	    # '=item *' => <ul>
+	    $start = "\\begin{itemize}\n";
+	    $end   = "\\end{itemize}\n";
+	    $strip = qr/^\s*\*\s*/;
+	}
+	elsif ($first_title =~ /^\s*\d+\.?\s*/) {
+	    # '=item 1.' or '=item 1 ' => <ol>
+	    $start = "\\befin{enumerate}\n";
+	    $end   = "\\end{enumerate}\n";
+	    $strip = qr/^\s*\d+\.?\s*/;
+	}
+	else {
+	    $start = "\\begin{itemize}\n";
+	    $end   = "\\end{itemize}\n";
+	    $strip = '';
+	}
+
+	my $overstack = ref $self ? $self->{ OVER } : \@OVER;
+	push(@$overstack, $strip);
+	my $content = $over->content->present($self);
+	pop(@$overstack);
+    
+	return $start
+	    . $content
+	    . $end;
+    }
+    else {
+	return "\\begin{verbatim}\n"
+	    . $over->content->present($self)
+	    . "\\end{verbatim}\n";
+    }
+}
+
+=head2 view_item
+
+=cut
+
+sub view_item {
+    my ($self, $item) = @_;
+    
+    return "\\item " . $item->content->present($self) . "\n";
+}
+
 =head1 AUTHOR
 
 Emmanuel Di Pretoro, C<< <<edipretoro at gmail.com>> >>
