@@ -18,6 +18,26 @@ Version 0.01
 
 our $VERSION = '0.01';
 
+my $header = <<'HEADER';
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[francais]{babel}
+\usepackage[pdftex]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{limap}
+\usepackage[cm]{fullpage}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+
+\hypersetup{
+  colorlinks,%
+  citecolor=black,%
+  filecolor=black,%
+  linkcolor=black,%
+  urlcolor=black
+}
+HEADER
+    ;
 
 =head1 SYNOPSIS
 
@@ -33,6 +53,7 @@ sub new {
     my $class = shift;
     my $args  = ref $_[0] eq 'HASH' ? shift : { @_ };
     bless { 
+        header => $header,
 	%$args,
     }, $class;
 }
@@ -65,6 +86,18 @@ sub view {
     else {
         return '';
     }
+}
+
+=head2 view_pod
+
+=cut
+
+sub view_pod {
+    my ($self, $pod) = @_;
+
+    my $output = $header . "\n\\begin{document}\n" . $pod->content->present($self) . "\\end{document}\n";
+    
+    return $output;
 }
 
 =head2 view_head1
